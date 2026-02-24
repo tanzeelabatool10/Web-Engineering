@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Enrollment Form – University of Mianwali</title>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #1b2a6b;   /* UMW deep navy blue */
+      --navy-dark:  #111d4e;   /* darker navy */
+      --navy-light: #2a3d8f;
+      --white:      #ffffff;
+      --off-white:  #f6f8ff;
+      --border:     #c4cbe8;
+      --text:       #111d3a;
+      --muted:      #5a6490;
+      --gold:       #c8a84b;
+      --radius:     5px;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #dde2f0;
+      background-image: radial-gradient(ellipse at top, #cdd4ec 0%, #dde2f0 70%);
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px 56px;
+      min-height: 100vh;
+    }
+
+    /* ── Paper sheet ── */
+    .page {
+      background: var(--white);
+      width: 100%;
+      max-width: 880px;
+      box-shadow: 0 8px 48px rgba(27,42,107,0.18);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    /* ══════════════════════════════
+       HEADER
+       ══════════════════════════════ */
+    header {
+      background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 55%, var(--navy-light) 100%);
+      padding: 30px 48px 26px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      border-bottom: 4px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px,
+        transparent 1px, transparent 18px
+      );
+      pointer-events: none;
+    }
+
+    /* ── Logo SVG wrapper ── */
+    .logo-wrap { flex-shrink: 0; position: relative; z-index: 1; }
+    .logo-svg  { width: 96px; height: 108px; filter: drop-shadow(0 3px 10px rgba(0,0,0,0.4)); }
+
+    /* ── Header text ── */
+    .header-text { position: relative; z-index: 1; }
+    .univ-name {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.2px;
+      line-height: 1.15;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    .univ-sub {
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(200,168,75,0.85);
+      margin-top: 5px;
+      font-weight: 500;
+    }
+    .form-label-pill {
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(200,168,75,0.18);
+      border: 1px solid rgba(200,168,75,0.55);
+      border-radius: 3px;
+      padding: 5px 18px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #e8d080;
+    }
+
+    /* Thin gold accent line under header */
+    .gold-line {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), #f0d070, var(--gold));
+    }
+
+    /* ══════════════════════════════
+       FORM
+       ══════════════════════════════ */
+    form { padding: 38px 48px 48px; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 34px; }
+
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 22px;
+    }
+    .sec-num {
+      width: 30px; height: 30px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.2px;
+    }
+    .sec-rule {
+      flex: 1; height: 2px;
+      background: linear-gradient(90deg, rgba(27,42,107,0.3), transparent);
+      border-radius: 1px;
+    }
+
+    /* ── Grids ── */
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+    .mt { margin-top: 16px; }
+    @media (max-width: 580px) {
+      .g2, .g3 { grid-template-columns: 1fr; }
+      form, header { padding-left: 20px; padding-right: 20px; }
+    }
+
+    /* ── Field ── */
+    .field { display: flex; flex-direction: column; gap: 6px; }
+
+    label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .field:focus-within > label { color: var(--navy); }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #aab0cc; font-weight: 300;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--navy);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(27,42,107,0.10);
+    }
+    select {
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6490' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+    textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+    /* ── Radio chips ── */
+    .radio-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .radio-row input[type="radio"] { display: none; }
+    .radio-row label {
+      display: flex; align-items: center; gap: 7px;
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 20px;
+      cursor: pointer;
+      font-size: 13px; letter-spacing: 0.3px;
+      text-transform: none; font-weight: 500;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .radio-row input[type="radio"]:checked + label {
+      border-color: var(--navy);
+      background: rgba(27,42,107,0.07);
+      color: var(--navy);
+      box-shadow: 0 0 0 2px rgba(27,42,107,0.12);
+    }
+    .rdot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      flex-shrink: 0;
+    }
+    .radio-row input[type="radio"]:checked + label .rdot {
+      background: var(--navy); border-color: var(--navy);
+    }
+
+    /* ── Divider ── */
+    hr { border: none; border-top: 1px solid #dde3f4; margin: 4px 0 34px; }
+
+    /* ── Consent box ── */
+    .consent-box {
+      background: rgba(27,42,107,0.05);
+      border: 1.5px solid rgba(27,42,107,0.18);
+      border-left: 4px solid var(--navy);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--navy-dark);
+      font-weight: 600;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    /* ── Checkbox row ── */
+    .check-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .check-row input[type="checkbox"] {
+      width: 17px; height: 17px; margin-top: 2px;
+      accent-color: var(--navy);
+      cursor: pointer; flex-shrink: 0;
+      border: none; padding: 0; transform: none;
+      border-radius: 0; background: transparent;
+    }
+    .check-row input:focus { box-shadow: none; }
+    .check-row span { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .check-row strong { color: var(--text); font-weight: 600; }
+
+    /* ── Bottom row: signature + button ── */
+    .bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .sig-block { display: flex; flex-direction: column; gap: 6px; }
+    .sig-box {
+      width: 200px; height: 72px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--off-white);
+    }
+    .sig-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    /* ── Button ── */
+    button {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy-light));
+      border: none; border-radius: var(--radius);
+      padding: 14px 48px;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(27,42,107,0.35);
+      transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(27,42,107,0.4);
+      opacity: 0.93;
+    }
+    button:active { transform: translateY(0); }
+
+    /* ══════════════════════════════
+       SUCCESS
+       ══════════════════════════════ */
+    #success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 40px;
+      text-align: center;
+    }
+    .sicon {
+      width: 70px; height: 70px;
+      background: rgba(27,42,107,0.08);
+      border: 2px solid var(--navy);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; margin-bottom: 22px; color: var(--navy);
+    }
+    #success h2 {
+      font-size: 1.7rem; color: var(--navy);
+      margin-bottom: 10px; letter-spacing: -0.3px;
+    }
+    #success p { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 400px; }
+
+    /* ══════════════════════════════
+       FOOTER
+       ══════════════════════════════ */
+    footer {
+      background: var(--navy-dark);
+      border-top: 3px solid var(--gold);
+      padding: 15px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer small { font-size: 11px; color: rgba(255,255,255,0.5); letter-spacing: 0.4px; }
+    footer small strong { color: rgba(255,255,255,0.8); font-weight: 600; }
+    .f-gold { color: var(--gold) !important; font-weight: 600; font-size: 11px; }
+  </style>
+</head>
+
+<body>
+<div class="page">
+
+  <!-- ════════════════════════════
+       HEADER
+       ════════════════════════════ -->
+  <header>
+
+    <!-- ════ UMW LOGO IMAGE ════ -->
+    <div class="logo-wrap">
+      <!-- Make sure logo.jpeg is in the same folder as this HTML file -->
+      <img src="logo.jpeg" alt="University of Mianwali Logo" class="logo-svg" />
+    </div>
+    <!-- end logo -->
+
+    <!-- Header text -->
+    <div class="header-text">
+      <div class="univ-name">University of Mianwali</div>
+      <div class="univ-sub">Mianwali, Punjab, Pakistan &nbsp;·&nbsp; HEC Recognized</div>
+      <div class="form-label-pill">Student Enrollment Form</div>
+    </div>
+
+  </header>
+
+  <div class="gold-line"></div>
+
+  <!-- ════════════════════════════
+       FORM
+       ════════════════════════════ -->
+  <form id="enrollForm" novalidate>
+
+    <!-- ══ 1. STUDENT INFO ══ -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">01</div>
+        <h2>Student Information</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="g2">
+        <div class="field">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" name="fname" placeholder="Enter first name" required />
+        </div>
+        <div class="field">
+          <label for="lname">Last Name</label>
+          <input type="text" id="lname" name="lname" placeholder="Enter last name" required />
+        </div>
+      </div>
+
+      <div class="g3 mt">
+        <div class="field">
+          <label for="dob">Date of Birth</label>
+          <input type="date" id="dob" name="dob" required />
+        </div>
+        <div class="field">
+          <label for="cnic">CNIC / B-Form No.</label>
+          <input type="text" id="cnic" name="cnic" placeholder="XXXXX-XXXXXXX-X" />
+        </div>
+        <div class="field">
+          <label for="nat">Nationality</label>
+          <input type="text" id="nat" name="nat" placeholder="Pakistani" />
+        </div>
+      </div>
+
+      <div class="mt">
+        <label style="display:block; margin-bottom:8px; font-size:11px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--muted);">Gender</label>
+        <div class="radio-row">
+          <input type="radio" id="gm" name="gender" value="male" />
+          <label for="gm"><span class="rdot"></span> Male</label>
+          <input type="radio" id="gf" name="gender" value="female" />
+          <label for="gf"><span class="rdot"></span> Female</label>
+          <input type="radio" id="go" name="gender" value="other" />
+          <label for="go"><span class="rdot"></span> Other</label>
+        </div>
+      </div>
+
+      <div class="field mt">
+        <label for="addr">Residential Address</label>
+        <input type="text" id="addr" name="addr" placeholder="Street, Area, City" />
+      </div>
+
+      <div class="g2 mt">
+        <div class="field">
+          <label for="phone">Contact Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="03XX-XXXXXXX" required />
+        </div>
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="student@example.com" required />
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- ══ 2. PARENT INFO ══ -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">02</div>
+        <h2>Parent / Guardian Information</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="field" style="margin-bottom:16px;">
+        <label for="pname">Parent / Guardian Full Name</label>
+        <input type="text" id="pname" name="pname" placeholder="Full Name" required />
+      </div>
+
+      <div class="g3">
+        <div class="field">
+          <label for="rel">Relationship to Student</label>
+          <input type="text" id="rel" name="rel" placeholder="e.g. Father / Mother" />
+        </div>
+        <div class="field">
+          <label for="pphone">Contact Number</label>
+          <input type="tel" id="pphone" name="pphone" placeholder="03XX-XXXXXXX" />
+        </div>
+        <div class="field">
+          <label for="pemail">Email Address</label>
+          <input type="email" id="pemail" name="pemail" placeholder="parent@example.com" />
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- ══ 3. ACADEMIC INFO ══ -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-num">03</div>
+        <h2>Academic Information</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="g2">
+        <div class="field">
+          <label for="prog">Program / Degree</label>
+          <select id="prog" name="prog" required>
+            <option value="" disabled selected>Select program…</option>
+            <optgroup label="Natural Sciences">
+              <option>BS Computer Science</option>
+              <option>BS Mathematics</option>
+              <option>BS Physics</option>
+              <option>BS Chemistry</option>
+              <option>BS Botany</option>
+              <option>BS Zoology</option>
+            </optgroup>
+            <optgroup label="Social Sciences">
+              <option>BS Economics</option>
+              <option>BS Political Science</option>
+              <option>BS Sociology</option>
+              <option>BS Psychology</option>
+            </optgroup>
+            <optgroup label="Arts & Humanities">
+              <option>BA English</option>
+              <option>BA Urdu</option>
+              <option>BA Islamic Studies</option>
+            </optgroup>
+            <optgroup label="Postgraduate">
+              <option>MS / M.Phil</option>
+              <option>PhD</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sess">Admission Session</label>
+          <select id="sess" name="sess">
+            <option value="" disabled selected>Select session…</option>
+            <option>Spring 2025</option>
+            <option>Fall 2025</option>
+            <option>Spring 2026</option>
+            <option>Fall 2026</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="g3 mt">
+        <div class="field">
+          <label for="roll">Roll No. (if allotted)</label>
+          <input type="text" id="roll" name="roll" placeholder="UMW-XXXX-XXXX" />
+        </div>
+        <div class="field">
+          <label for="prev">Previous Institution</label>
+          <input type="text" id="prev" name="prev" placeholder="School / College Name" />
+        </div>
+        <div class="field">
+          <label for="marks">Previous Marks / GPA</label>
+          <input type="text" id="marks" name="marks" placeholder="e.g. 850/1100 or 3.8" />
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- ══ 4. CONSENT ══ -->
+    <div class="section" style="margin-bottom:0;">
+      <div class="sec-head">
+        <div class="sec-num">04</div>
+        <h2>Consent &amp; Signature</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="consent-box">
+        I confirm that all information provided in this form is true, complete, and accurate
+        to the best of my knowledge. I understand that any false statement may result in the
+        cancellation of my enrollment at the University of Mianwali.
+      </div>
+
+      <div class="check-row">
+        <input type="checkbox" id="agree" name="agree" required />
+        <span>
+          I agree to abide by the <strong>Rules &amp; Regulations</strong>,
+          <strong>Academic Policies</strong>, and <strong>Privacy Policy</strong>
+          of the University of Mianwali.
+        </span>
+      </div>
+
+      <div class="bottom-row">
+        <div class="sig-block">
+          <div class="sig-box"></div>
+          <span class="sig-label">Applicant Signature</span>
+        </div>
+        <button type="submit">Submit Enrollment</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- Success -->
+  <div id="success">
+    <div class="sicon">✓</div>
+    <h2>Enrollment Submitted!</h2>
+    <p>Your enrollment form has been received by the University of Mianwali.<br />
+       A confirmation will be sent to your registered email within 24–48 hours.</p>
+  </div>
+
+  <!-- ════════════════════════════
+       FOOTER
+       ════════════════════════════ -->
+  <footer>
+    <small>© 2025 <strong>University of Mianwali (UMW)</strong>. All Rights Reserved.</small>
+    <small class="f-gold">umw.edu.pk</small>
+    <small>Mianwali, Punjab, Pakistan</small>
+  </footer>
+
+</div><!-- end .page -->
+
+<script>
+  document.getElementById('enrollForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const agree = document.getElementById('agree');
+    if (!agree.checked) {
+      agree.style.outline = '2px solid #c0522a';
+      agree.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    this.style.transition = 'opacity 0.45s';
+    this.style.opacity = '0';
+    setTimeout(() => {
+      this.style.display = 'none';
+      document.getElementById('success').style.display = 'flex';
+    }, 450);
+  });
+</script>
+
+</body>
+</html>

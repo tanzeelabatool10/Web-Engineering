@@ -1,0 +1,890 @@
+<!-- ============================================================
+     PORTFOLIO WEBSITE - Aspiring Developer
+     Colors Used: Blue (#1a35e8), Black (#0a0a0a), White (#ffffff)
+     Author: Aspiring Developer | Mianwali, Pakistan
+     ============================================================ -->
+
+<!doctype html>
+<!-- <!doctype html> : Tells the browser this is an HTML5 document -->
+
+<html lang="en">
+<!-- <html> : Root element that wraps the entire webpage
+     lang="en" : Sets the language of the page to English -->
+
+<head>
+<!-- <head> : Contains meta information about the page (not visible on screen) -->
+
+  <meta charset="UTF-8" />
+  <!-- <meta charset> : Sets character encoding so special characters display correctly -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <meta name="viewport"> : Makes the page responsive on mobile devices
+       width=device-width : Page width matches the device screen width
+       initial-scale=1.0 : No zoom on page load -->
+
+  <title>Aspiring Developer — Portfolio</title>
+  <!-- <title> : Text shown in the browser tab / window title bar -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- <link> : Links an external resource to the HTML page
+       href : URL of the Google Fonts stylesheet
+       rel="stylesheet" : Tells browser this is a CSS stylesheet
+       Fonts loaded: Playfair Display (headings), DM Sans (body), DM Mono (labels/code) -->
+
+  <style>
+  /* <style> : Contains all the internal CSS styling for this page */
+
+    /* ── RESET & BASE ──
+       Removes default margin and padding from all elements
+       box-sizing: border-box means padding is included inside width/height */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── CSS VARIABLES ──
+       :root defines global color variables used throughout the stylesheet
+       These make it easy to change the color theme in one place */
+    :root {
+      --blue: #1a35e8;        /* Main blue accent color */
+      --blue-dark: #0f20a0;   /* Darker blue used on hover */
+      --blue-light: #e8eeff;  /* Light blue for skill tag backgrounds */
+      --black: #0a0a0a;       /* Near-black for backgrounds and text */
+      --white: #ffffff;       /* Pure white */
+      --gray: #f4f6ff;        /* Light blue-gray for section backgrounds */
+      --border: #d0d8ff;      /* Light blue for borders */
+      --muted: #555577;       /* Muted dark color for secondary text */
+    }
+
+    /* smooth scrolling when clicking nav links */
+    html { scroll-behavior: smooth; }
+
+    /* ── BODY ──
+       Sets the default font, background, text color and hides horizontal scroll */
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV (Navigation Bar) ──
+       position: fixed keeps nav bar always visible at top while scrolling
+       z-index: 100 keeps it above all other content
+       border-bottom: blue line under the nav bar */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 60px;
+      background: var(--black);
+      border-bottom: 3px solid var(--blue);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 900;
+      color: var(--white); letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--blue); } /* The dot "." after "Aspiring" is blue */
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #aab0cc; text-decoration: none;
+      transition: color 0.2s; /* smooth color change on hover */
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── HERO SECTION ──
+       min-height: 100vh makes hero fill the full screen height
+       position: relative allows the glowing blob (::before) to be positioned inside it */
+    .hero {
+      background: var(--black);
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 140px 60px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Blue glowing blob decoration in the background of hero */
+    .hero::before {
+      content: '';
+      position: absolute; right: -80px; top: 50%; transform: translateY(-50%);
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,53,232,0.35) 0%, transparent 70%);
+      pointer-events: none; /* Blob does not block mouse clicks */
+    }
+
+    /* Flexbox row: text on left, profile image on right */
+    .hero-layout {
+      display: flex; align-items: center;
+      justify-content: space-between; width: 100%; position: relative; z-index: 1;
+    }
+    .hero-content { max-width: 580px; }
+
+    /* Small label badge above the main heading */
+    .hero-tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace; font-size: 0.75rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 24px;
+      padding: 7px 16px; border: 1px solid rgba(26,53,232,0.5);
+      border-radius: 3px;
+      animation: fadeUp 0.6s ease both; /* slides up on page load */
+    }
+
+    /* Main heading <h1> in hero section */
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5.5vw, 5rem); /* responsive font size */
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -0.03em; color: var(--white);
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 span { color: var(--blue); } /* highlighted word inside h1 */
+
+    /* Paragraph subtitle text below the h1 */
+    .hero-sub {
+      margin-top: 22px; font-size: 1rem; font-weight: 300;
+      color: #8890bb; max-width: 480px; line-height: 1.75;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    /* Location text with pin emoji */
+    .hero-location {
+      margin-top: 14px;
+      font-family: 'DM Mono', monospace; font-size: 0.78rem;
+      color: #6670aa; letter-spacing: 0.06em;
+      animation: fadeUp 0.7s 0.25s ease both;
+    }
+
+    /* Container holding the two CTA buttons */
+    .hero-cta {
+      margin-top: 38px; display: flex; gap: 14px; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.35s ease both;
+    }
+
+    /* Base style for all buttons */
+    .btn {
+      display: inline-block; padding: 13px 30px;
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+      text-decoration: none; border-radius: 4px; transition: all 0.25s;
+      cursor: pointer; border: none;
+    }
+    /* Filled blue button */
+    .btn-primary { background: var(--blue); color: var(--white); }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); }
+    /* Transparent button with border */
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* ── PROFILE IMAGE (circular) ──
+       border-radius: 50% makes it a perfect circle
+       box-shadow: glowing blue ring around the image */
+    .hero-avatar {
+      width: 280px; height: 280px; border-radius: 50%;
+      border: 4px solid var(--blue);
+      overflow: hidden; flex-shrink: 0;
+      box-shadow: 0 0 0 10px rgba(26,53,232,0.15), 0 0 60px rgba(26,53,232,0.3);
+      animation: fadeIn 1s 0.4s ease both;
+    }
+    /* <img> inside avatar fills the circle completely */
+    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── GENERAL SECTION STYLES ──
+       All <section> elements get consistent padding */
+    section { padding: 90px 60px; }
+
+    /* Small uppercase label above section title (e.g. "Who I Am") */
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--blue);
+      margin-bottom: 12px;
+    }
+
+    /* Large section heading (e.g. "About Me") */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3vw, 2.7rem); font-weight: 700;
+      letter-spacing: -0.02em; color: var(--black); margin-bottom: 48px;
+    }
+
+    /* ── HORIZONTAL DIVIDER LINE ──
+       A thin line between sections */
+    .divider { height: 1px; background: var(--border); margin: 0 60px; }
+
+    /* ── ABOUT SECTION ── */
+    #about { background: var(--white); }
+
+    /* Two-column grid: left = bio text, right = skills */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start;
+    }
+    .about-text { font-size: 0.97rem; line-height: 1.85; color: #333355; }
+    .about-text p + p { margin-top: 16px; } /* space between paragraphs */
+    .about-text strong { color: var(--blue); } /* bold words appear in blue */
+
+    /* Category label above each group of skill tags */
+    .skill-category {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px; margin-top: 24px;
+    }
+    .skill-category:first-child { margin-top: 0; }
+
+    /* Flex container for skill tag badges */
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    /* Individual skill badge (e.g. "Flutter", "Dart") */
+    .skill-tag {
+      padding: 8px 16px;
+      background: var(--blue-light); border: 1px solid var(--border);
+      border-radius: 4px; font-size: 0.8rem; font-weight: 500;
+      color: var(--blue); font-family: 'DM Mono', monospace;
+      transition: all 0.2s;
+    }
+    /* On hover: turns solid blue with white text and lifts up */
+    .skill-tag:hover { background: var(--blue); color: var(--white); transform: translateY(-2px); }
+
+    /* ── PROJECTS SECTION ── (dark background) */
+    #projects { background: var(--black); }
+    #projects .section-title { color: var(--white); }
+    #projects .section-label { color: #5577ff; }
+
+    /* Responsive grid: cards auto-fit in available space */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+    }
+
+    /* Individual project card */
+    .project-card {
+      background: #111122; border: 1px solid #222244;
+      border-radius: 8px; padding: 32px;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+
+    /* Blue top-border animation that slides in on hover using ::before pseudo-element */
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: var(--blue);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+    }
+    .project-card:hover::before { transform: scaleX(1); } /* Expand blue line on hover */
+    .project-card:hover { transform: translateY(-5px); border-color: #3344aa; box-shadow: 0 20px 40px rgba(26,53,232,0.15); }
+
+    /* Large faded number (01, 02, 03) decorative element */
+    .project-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem; font-weight: 900; color: rgba(26,53,232,0.2); margin-bottom: 14px;
+    }
+
+    /* Project name heading inside card */
+    .project-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--white);
+    }
+
+    /* Technology and role label below project name */
+    .project-role {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      color: #5577ff; letter-spacing: 0.08em; margin-bottom: 16px;
+    }
+
+    /* Bullet list of project features */
+    .project-desc { list-style: none; } /* removes default bullet dots */
+    .project-desc li { font-size: 0.86rem; color: #8890bb; line-height: 1.7; margin-bottom: 5px; }
+    .project-desc li::before { content: '→ '; color: var(--blue); } /* custom arrow bullet */
+
+    /* ── EDUCATION SECTION ── */
+    #education { background: var(--gray); }
+
+    /* Vertical list of education cards */
+    .edu-list { display: flex; flex-direction: column; gap: 18px; max-width: 660px; }
+
+    /* Individual education entry card */
+    .edu-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 8px; padding: 26px 30px;
+      display: flex; gap: 20px; align-items: flex-start;
+      transition: box-shadow 0.2s;
+    }
+    .edu-card:hover { box-shadow: 0 8px 24px rgba(26,53,232,0.1); }
+
+    /* Colored dot bullet on the left of each education card */
+    .edu-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--blue); margin-top: 5px; flex-shrink: 0;
+    }
+
+    /* Degree name */
+    .edu-degree {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--black); margin-bottom: 5px;
+    }
+
+    /* Institution name */
+    .edu-inst { font-size: 0.88rem; color: var(--muted); margin-bottom: 4px; }
+
+    /* Date range (e.g. 2023 – 2027) */
+    .edu-dates {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      color: var(--blue); letter-spacing: 0.06em;
+    }
+
+    /* ── CERTIFICATIONS SECTION ── */
+    #certifications { background: var(--white); }
+
+    /* Grid of certification cards */
+    .certs-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px;
+    }
+
+    /* Individual certification card */
+    .cert-card {
+      background: var(--blue-light); border: 1px solid var(--border);
+      border-radius: 8px; padding: 22px;
+      display: flex; align-items: flex-start; gap: 14px;
+      transition: all 0.2s;
+    }
+    .cert-card:hover { border-color: var(--blue); transform: translateY(-2px); background: #dce3ff; }
+
+    /* Circular emoji icon on the left of each cert card */
+    .cert-icon {
+      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+      background: var(--blue); display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+
+    /* Certification title text */
+    .cert-name { font-size: 0.85rem; font-weight: 500; color: var(--black); line-height: 1.5; }
+
+    /* ── CONTACT SECTION ── (dark background) */
+    #contact { background: var(--black); }
+    #contact .section-title { color: var(--white); }
+    #contact .section-label { color: #5577ff; }
+
+    /* Two-column layout: text on left, decorative box on right */
+    .contact-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+
+    /* Contact description paragraph */
+    .contact-text p { font-size: 0.95rem; line-height: 1.75; color: #8890bb; margin-bottom: 28px; }
+
+    /* Email address displayed in blue monospace font */
+    .contact-email {
+      font-family: 'DM Mono', monospace; font-size: 0.88rem; color: var(--blue);
+    }
+    .contact-email a { color: inherit; text-decoration: none; }
+    .contact-email a:hover { text-decoration: underline; }
+
+    /* Row of social media buttons (LinkedIn, GitHub, Twitter) */
+    .social-row { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+
+    /* Individual social media button */
+    .social-btn {
+      padding: 11px 24px; background: var(--blue); color: var(--white);
+      font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em;
+      text-decoration: none; border-radius: 4px; transition: all 0.2s;
+    }
+    .social-btn:hover { background: var(--blue-dark); transform: translateY(-2px); }
+
+    /* Decorative box on right side of contact section */
+    .contact-box {
+      background: #111122; border: 1px solid #222244;
+      border-radius: 12px; padding: 60px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* Faded large text inside decorative box */
+    .contact-box-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem; font-weight: 900;
+      color: rgba(26,53,232,0.25); text-align: center; line-height: 1.1;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 60px;
+      background: var(--black); border-top: 1px solid #1a1a33;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: #44456a; }
+    .footer-copy span { color: var(--blue); } /* blue highlight for "Flutter & Dart" text */
+
+    /* ── KEYFRAME ANIMATIONS ──
+       fadeUp: element slides upward while fading in
+       fadeIn: element simply fades from invisible to visible */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ── SCROLL REVEAL ──
+       Elements with class "reveal" start hidden
+       JavaScript adds class "visible" when element enters the viewport */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE DESIGN ──
+       On screens smaller than 860px, layout switches to single column
+       and padding is reduced for mobile comfort */
+    @media (max-width: 860px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 18px; }
+      section { padding: 60px 20px; }
+      .hero { padding: 110px 20px 60px; }
+      .hero-layout { flex-direction: column-reverse; gap: 40px; text-align: center; }
+      .hero-content { max-width: 100%; }
+      .hero-sub { margin: 16px auto 0; }
+      .hero-cta { justify-content: center; }
+      .hero-location { text-align: center; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+      .divider { margin: 0 20px; }
+      footer { padding: 18px 20px; flex-direction: column; gap: 6px; text-align: center; }
+    }
+
+  </style>
+  <!-- END of <style> block -->
+
+</head>
+<!-- END of <head> block -->
+
+<body>
+<!-- <body> : Contains all visible content shown on the webpage -->
+
+  <!-- ============================================================
+       NAVIGATION BAR
+       <nav> : Semantic HTML5 tag for navigation menus
+       Fixed at top, stays visible while scrolling
+       ============================================================ -->
+  <nav>
+
+    <!-- Logo / Brand Name -->
+    <div class="nav-logo">
+      Aspiring<span>.</span>
+      <!-- <div> : A general-purpose block container
+           <span> : Inline element used to style just the dot in blue -->
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+      <!-- <a href="#about"> : Anchor tag that scrolls to the #about section on click -->
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+  </nav>
+  <!-- END NAV -->
+
+
+  <!-- ============================================================
+       HERO SECTION
+       <section> : Semantic HTML5 tag for a standalone content section
+       id="home" : Used to link directly to this section
+       class="hero" : Applies hero CSS styles
+       ============================================================ -->
+  <section class="hero" id="home">
+
+    <!-- Flex row: left = text, right = profile image -->
+    <div class="hero-layout">
+
+      <!-- LEFT SIDE: Hero Text Content -->
+      <div class="hero-content">
+
+        <!-- Small label badge -->
+        <div class="hero-tag">Flutter &amp; Dart Mobile Developer</div>
+        <!-- &amp; is the HTML entity for the & character -->
+
+        <!-- Main Heading -->
+        <h1>
+          <!-- <h1> : Most important heading on the page (only one per page recommended) -->
+          Building<br />
+          <!-- <br /> : Line break — moves content to the next line -->
+          <span>Clean &amp;</span><br />
+          Smart Apps
+        </h1>
+
+        <!-- Subtitle Paragraph -->
+        <p class="hero-sub">
+          <!-- <p> : Paragraph tag for body text -->
+          Software Engineering student at University of Mianwali, passionate about
+          cross-platform mobile development with Flutter &amp; Dart.
+        </p>
+
+        <!-- Location -->
+        <p class="hero-location">📍 Mianwali, Pakistan</p>
+
+        <!-- Call-To-Action Buttons -->
+        <div class="hero-cta">
+          <!-- <a> : Anchor tag used as a button that scrolls to #projects section -->
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-outline">Get In Touch</a>
+        </div>
+
+      </div>
+      <!-- END hero-content -->
+
+      <!-- RIGHT SIDE: Profile Photo -->
+      <div class="hero-avatar">
+        <!-- <img> : Embeds an image
+             src="profile.jpeg" : Path to the image (must be in same folder as this HTML file)
+             alt : Alternative text shown if image fails to load, also used by screen readers -->
+        <img src="profile.jpeg" alt="Profile Photo" />
+      </div>
+
+    </div>
+    <!-- END hero-layout -->
+
+  </section>
+  <!-- END HERO SECTION -->
+
+
+  <!-- Thin horizontal divider line between sections -->
+  <div class="divider"></div>
+
+
+  <!-- ============================================================
+       ABOUT SECTION
+       id="about" : Nav links scroll to here
+       ============================================================ -->
+  <section id="about">
+
+    <!-- Section heading block with reveal animation -->
+    <div class="reveal">
+      <div class="section-label">Who I Am</div>      <!-- Small uppercase label -->
+      <div class="section-title">About Me</div>       <!-- Large section title -->
+    </div>
+
+    <!-- Two-column grid: bio on left, skills on right -->
+    <div class="about-grid reveal">
+
+      <!-- LEFT: Bio Text -->
+      <div class="about-text">
+        <p>
+          I'm a detail-oriented
+          <strong>Software Engineering student</strong>
+          <!-- <strong> : Bold text that also conveys importance semantically -->
+          at the University of Mianwali, driven by a passion for building clean,
+          efficient, and user-centric applications.
+        </p>
+        <p>
+          My primary focus is <strong>Flutter &amp; Dart</strong> for cross-platform
+          mobile development, backed by a solid foundation in C++, Java, Python,
+          and web technologies.
+        </p>
+        <p>
+          Beyond code, I bring creative skills in <strong>UI/UX design</strong>,
+          graphic design with Canva, and digital marketing.Making me a well-rounded
+          developer who thinks about the full product experience.
+        </p>
+      </div>
+
+      <!-- RIGHT: Skill Tags -->
+      <div>
+
+        <!-- Skill Group 1: Languages & Frameworks -->
+        <div class="skill-category">Languages &amp; Frameworks</div>
+        <div class="skills-wrap">
+          <!-- <span> : Inline element used for each skill badge -->
+          <span class="skill-tag">Dart</span>
+          <span class="skill-tag">Flutter</span>
+          <span class="skill-tag">Java</span>
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+        </div>
+
+        <!-- Skill Group 2: Databases -->
+        <div class="skill-category">Databases</div>
+        <div class="skills-wrap">
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">DBMS</span>
+        </div>
+
+        <!-- Skill Group 3: Design & Marketing -->
+        <div class="skill-category">Design &amp; Marketing</div>
+        <div class="skills-wrap">
+          <span class="skill-tag">UI/UX</span>
+          <span class="skill-tag">Canva</span>
+          <span class="skill-tag">Graphic Design</span>
+          <span class="skill-tag">Facebook Ads</span>
+          <span class="skill-tag">SEO</span>
+        </div>
+
+      </div>
+      <!-- END skills column -->
+
+    </div>
+    <!-- END about-grid -->
+
+  </section>
+  <!-- END ABOUT SECTION -->
+
+
+  <div class="divider"></div>
+
+
+  <!-- ============================================================
+       PROJECTS SECTION
+       id="projects" : Nav links scroll to here
+       ============================================================ -->
+  <section id="projects">
+
+    <!-- Section Heading -->
+    <div class="reveal">
+      <div class="section-label">What I've Built</div>
+      <div class="section-title">Academic Projects</div>
+    </div>
+
+    <!-- Grid of 3 Project Cards -->
+    <div class="projects-grid">
+
+      <!-- PROJECT CARD 1 -->
+      <div class="project-card reveal">
+        <div class="project-num">01</div>             <!-- Decorative large number -->
+        <h3>Banking Management System</h3>            <!-- <h3> : Third-level heading for card title -->
+        <div class="project-role">C++ / OOP — Lead Developer</div>
+        <ul class="project-desc">
+          <!-- <ul> : Unordered list (bullet list) -->
+          <!-- <li> : List item inside the <ul> -->
+          <li>Built banking app using OOP principles</li>
+          <li>Implemented user authentication and transactions</li>
+          <li>Applied encapsulation, inheritance &amp; polymorphism</li>
+        </ul>
+      </div>
+
+      <!-- PROJECT CARD 2 -->
+      <div class="project-card reveal">
+        <div class="project-num">02</div>
+        <h3>Retail POS System</h3>
+        <div class="project-role">SQL / DBMS — Database Designer</div>
+        <ul class="project-desc">
+          <li>Developed database for inventory and sales</li>
+          <li>Optimized SQL queries for fast reports</li>
+          <li>Designed normalized schema for data integrity</li>
+        </ul>
+      </div>
+
+      <!-- PROJECT CARD 3 -->
+      <div class="project-card reveal">
+        <div class="project-num">03</div>
+        <h3>POS Web Interface</h3>
+        <div class="project-role">HTML / CSS — Frontend Developer</div>
+        <ul class="project-desc">
+          <li>Created responsive web dashboard</li>
+          <li>Built intuitive UI for retail staff</li>
+          <li>Focused on clean layout and accessibility</li>
+        </ul>
+      </div>
+
+    </div>
+    <!-- END projects-grid -->
+
+  </section>
+  <!-- END PROJECTS SECTION -->
+
+
+  <div class="divider" style="background:#1a1a33; margin:0"></div>
+  <!-- Inline style overrides the divider color for dark-to-dark section transition -->
+
+
+  <!-- ============================================================
+       EDUCATION SECTION
+       id="education" : Nav links scroll to here
+       ============================================================ -->
+  <section id="education">
+
+    <!-- Section Heading -->
+    <div class="reveal">
+      <div class="section-label">Background</div>
+      <div class="section-title">Education</div>
+    </div>
+
+    <!-- Vertical list of education cards -->
+    <div class="edu-list reveal">
+
+      <!-- EDUCATION CARD 1: University -->
+      <div class="edu-card">
+        <div class="edu-dot"></div>   <!-- Blue circle dot indicator -->
+        <div>
+          <div class="edu-degree">B.Sc. Software Engineering</div>
+          <div class="edu-inst">University of Mianwali</div>
+          <div class="edu-dates">Oct 2023 – Aug 2027</div>
+        </div>
+      </div>
+
+      <!-- EDUCATION CARD 2: College -->
+      <div class="edu-card">
+        <div class="edu-dot" style="background:#0a0a0a"></div>  <!-- Black dot for second entry -->
+        <div>
+          <div class="edu-degree">Intermediate (Pre-Engineering)</div>
+          <div class="edu-inst">Punjab Group of Colleges, Talagang</div>
+          <div class="edu-dates">June 2021 – June 2023</div>
+        </div>
+      </div>
+
+    </div>
+    <!-- END edu-list -->
+
+  </section>
+  <!-- END EDUCATION SECTION -->
+
+
+  <div class="divider"></div>
+
+
+  <!-- ============================================================
+       CERTIFICATIONS SECTION
+       id="certifications" : Can be linked to directly
+       ============================================================ -->
+  <section id="certifications">
+
+    <!-- Section Heading -->
+    <div class="reveal">
+      <div class="section-label">Credentials</div>
+      <div class="section-title">Certifications</div>
+    </div>
+
+    <!-- Grid of Certification Cards -->
+    <div class="certs-grid reveal">
+
+      <!-- CERT CARD 1 -->
+      <div class="cert-card">
+        <div class="cert-icon">📣</div>   <!-- Emoji icon inside blue circle -->
+        <div class="cert-name">Social Media Marketing Automation Masterclass</div>
+      </div>
+
+      <!-- CERT CARD 2 -->
+      <div class="cert-card">
+        <div class="cert-icon">📘</div>
+        <div class="cert-name">Master Facebook Ads in 90 Minutes</div>
+      </div>
+
+      <!-- CERT CARD 3 -->
+      <div class="cert-card">
+        <div class="cert-icon">🔍</div>
+        <div class="cert-name">Search Engine Optimization (SEO Masterclass)</div>
+      </div>
+
+      <!-- CERT CARD 4 -->
+      <div class="cert-card">
+        <div class="cert-icon">🎨</div>
+        <div class="cert-name">Graphic Design: 3D LinkedIn Visuals using Canva</div>
+      </div>
+
+    </div>
+    <!-- END certs-grid -->
+
+  </section>
+  <!-- END CERTIFICATIONS SECTION -->
+
+
+  <div class="divider" style="background:#1a1a33; margin:0"></div>
+
+
+  <!-- ============================================================
+       CONTACT SECTION
+       id="contact" : Nav links scroll to here
+       ============================================================ -->
+  <section id="contact">
+
+    <!-- Two-column grid: contact info on left, decorative box on right -->
+    <div class="contact-inner">
+
+      <!-- LEFT: Contact Info -->
+      <div class="contact-text reveal">
+        <div class="section-label">Let's Connect</div>
+        <div class="section-title">Get In Touch</div>
+
+        <p>
+          Whether you have a project idea, want to collaborate, or just want to
+          say hello. My inbox is always open.
+        </p>
+
+        <!-- Email Address -->
+        <div class="contact-email">
+          <!-- <a href="mailto:..."> : Clicking this opens the user's default email app -->
+          <a href="mailto:tanzeelabatoolumw@gmail.com">tanzeelabatoolumw@gmail.com</a>
+        </div>
+
+        <!-- Social Media Buttons -->
+        <div class="social-row">
+          <!-- href="#" means link goes nowhere yet — replace with real URLs -->
+          <a href="www.linkedin.com/in/tanzeela-batool-5219a936a" class="social-btn">LinkedIn</a>
+          <a href="https://github.com/tanzeelabatoolumw-hue" class="social-btn">GitHub</a>
+        
+        </div>
+
+      </div>
+      <!-- END contact-text -->
+
+      <!-- RIGHT: Decorative Text Box -->
+      <div class="contact-box reveal">
+        <div class="contact-box-text">
+          Let's<br/>Build<br/>Together.
+          <!-- <br/> : Line breaks to stack words vertically -->
+        </div>
+      </div>
+
+    </div>
+    <!-- END contact-inner -->
+
+  </section>
+  <!-- END CONTACT SECTION -->
+
+
+  <!-- ============================================================
+       FOOTER
+       <footer> : Semantic HTML5 tag for the bottom of the page
+       ============================================================ -->
+  <footer>
+
+    <!-- Left text: copyright notice -->
+    <span class="footer-copy">
+      <!-- <span> : Inline container for small text -->
+      © 2026 Aspiring Developer — Built with HTML
+    </span>
+
+    <!-- Right text: role and location -->
+    <span class="footer-copy">
+      <span>Flutter &amp; Dart</span> Developer · Mianwali, Pakistan
+      <!-- Inner <span> gives "Flutter & Dart" the blue color via CSS -->
+    </span>
+
+  </footer>
+  <!-- END FOOTER -->
+
+
+  <!-- ============================================================
+       JAVASCRIPT - SCROLL REVEAL ANIMATION
+       <script> : Contains JavaScript code that runs in the browser
+       ============================================================ -->
+  <script>
+
+    // Select all HTML elements that have the class "reveal"
+    const els = document.querySelectorAll('.reveal');
+
+    // IntersectionObserver watches when elements enter the screen (viewport)
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        // When element is visible on screen, add class "visible" to trigger CSS animation
+        if (e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 }); // 0.1 means: trigger when 10% of element is visible
+
+    // Tell the observer to watch every .reveal element on the page
+    els.forEach(el => obs.observe(el));
+
+  </script>
+  <!-- END SCRIPT -->
+
+</body>
+<!-- END <body> -->
+
+</html>
+<!-- END <html> -->
